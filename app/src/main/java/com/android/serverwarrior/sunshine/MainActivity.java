@@ -26,12 +26,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-/*        if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment, new ForecastFragment())
-                    .commit();
-        }*/
     }
 
     @Override
