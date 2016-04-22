@@ -134,12 +134,21 @@ public class ForecastFragment extends Fragment {
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
+                //   urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
+                Log.v(LOG_TAG, "Response Code" + urlConnection.getResponseCode());
+                Log.v(LOG_TAG, "Error Stream" + urlConnection.getErrorStream());
+                Log.v(LOG_TAG, "Request Method" + urlConnection.getRequestMethod());
 
                 // Read the input stream into a String
-                InputStream inputStream = urlConnection.getInputStream();
-
+                // InputStream inputStream = urlConnection.getInputStream();
+                InputStream inputStream;
+                if (urlConnection.getResponseCode() >= 400) {
+                    inputStream = urlConnection.getErrorStream();
+                } else {
+                    inputStream = urlConnection.getInputStream();
+                }
+                //  Log.v(LOG_TAG, "Response Code" +urlConnection.getHeaderFields());
 
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
@@ -164,7 +173,9 @@ public class ForecastFragment extends Fragment {
                 forecastJsonStr = buffer.toString();
                 Log.v(LOG_TAG, "JSON Response " + forecastJsonStr);
             } catch (IOException e) {
-                Log.e(LOG_TAG, "Error x", e);
+                //Log.e(LOG_TAG, "Error", e);
+                String s = Log.getStackTraceString (e);
+                Log.e(LOG_TAG,"Error" + s);
                 // If the code didn't successfully get the weather data, there's no point in attemping
                 // to parse it.
                 return null;
