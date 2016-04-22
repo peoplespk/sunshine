@@ -136,10 +136,11 @@ public class ForecastFragment extends Fragment {
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
-                Log.v(LOG_TAG, "JSON Response " + urlConnection );
 
                 // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
+
+
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
                     // Nothing to do.
@@ -163,7 +164,7 @@ public class ForecastFragment extends Fragment {
                 forecastJsonStr = buffer.toString();
                 Log.v(LOG_TAG, "JSON Response " + forecastJsonStr);
             } catch (IOException e) {
-                Log.e(LOG_TAG, "Error ", e);
+                Log.e(LOG_TAG, "Error x", e);
                 // If the code didn't successfully get the weather data, there's no point in attemping
                 // to parse it.
                 return null;
