@@ -79,7 +79,7 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
         if(id == R.id.action_refresh){
             FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute();
+            weatherTask.execute("94043");
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -88,6 +88,7 @@ public class ForecastFragment extends Fragment {
     public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
 
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+
 
         @Override
         protected Void doInBackground(String... params) {
@@ -127,22 +128,15 @@ public class ForecastFragment extends Fragment {
                         .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
                         .build();
 
-
-
-
-               // String baseUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7";
-                //String apiKey = "&APPID=" + BuildConfig.OPEN_WEATHER_MAP_API_KEY;
-                //URL url = new URL(baseUrl.concat(apiKey));
                 URL url = new URL(builtUri.toString());
-                //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?id=5375480&cnt=7&appid=f57cb19ffec6fc3b8aa58a15db198af4");
 
-                Log.v(LOG_TAG, "Built URI" + builtUri.toString());
-                //Log.v(LOG_TAG, url+"" );
+                Log.v(LOG_TAG, "Built URI " + builtUri.toString());
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
+                Log.v(LOG_TAG, "JSON Response " + urlConnection );
 
                 // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
@@ -163,9 +157,11 @@ public class ForecastFragment extends Fragment {
 
                 if (buffer.length() == 0) {
                     // Stream was empty.  No point in parsing.
+
                     return null;
                 }
                 forecastJsonStr = buffer.toString();
+                Log.v(LOG_TAG, "JSON Response " + forecastJsonStr);
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attemping
