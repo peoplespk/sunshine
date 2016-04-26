@@ -72,4 +72,6 @@
     <string name="pref_temp_units_imperial">imperial</string>
     <string name="pref_temp_label_metric">Celsius</string>
     <string name="pref_temp_label_imperial">Fahrenheit</string>
+    <string name="action_map">Map</string>
+    <string name="action_share">Share</string>
 </resources>
